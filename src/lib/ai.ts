@@ -68,36 +68,54 @@ export async function categorizeReviewsBatch(
     ]
     `;
 
-    try {
-      const result = await model.generateContent(prompt);
-      const response = await result.response;
-      let text = response.text().trim();
+    const MAX_RETRIES = 3;
+    let success = false;
 
-      if (text.includes('```json')) text = text.split('```json')[1].split('```')[0].trim();
-      else if (text.includes('```')) text = text.split('```')[1].split('```')[0].trim();
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+      try {
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        let text = response.text().trim();
 
-      const results = JSON.parse(text);
+        if (text.includes('```json')) text = text.split('```json')[1].split('```')[0].trim();
+        else if (text.includes('```')) text = text.split('```')[1].split('```')[0].trim();
 
-      chunk.forEach((review, idx) => {
-        const res = results.find((r: any) => r.id === idx) || { category: '', subCategory: '미분류' };
-        const finalCategory: Category = review.score >= 3 ? '칭찬' : '불만';
-        const allowedSubs = SUB_CATEGORIES[finalCategory];
-        const finalSub = allowedSubs.includes(res.subCategory)
-          ? res.subCategory
-          : allowedSubs[allowedSubs.length - 1];
+        const results = JSON.parse(text);
 
-        analyzed.push({
-          ...review,
-          appId,
-          category: finalCategory,
-          subCategory: finalSub,
-          analysisDate: new Date().toISOString(),
+        chunk.forEach((review, idx) => {
+          const res = results.find((r: any) => r.id === idx) || { category: '', subCategory: '미분류' };
+          const finalCategory: Category = review.score >= 3 ? '칭찬' : '불만';
+          const allowedSubs = SUB_CATEGORIES[finalCategory];
+          const finalSub = allowedSubs.includes(res.subCategory)
+            ? res.subCategory
+            : allowedSubs[allowedSubs.length - 1];
+
+          analyzed.push({
+            ...review,
+            appId,
+            category: finalCategory,
+            subCategory: finalSub,
+            analysisDate: new Date().toISOString(),
+          });
         });
-      });
 
-      console.log(`[AI] ${app.name}: ${analyzed.length}/${reviews.length} processed`);
-    } catch (error) {
-      console.error(`[AI] Error at chunk ${i} for ${app.name}:`, error);
+        console.log(`[AI] ${app.name}: ${analyzed.length}/${reviews.length} processed`);
+        success = true;
+        break;
+      } catch (error) {
+        const is429 = error instanceof Error && (error.message.includes('429') || error.message.includes('quota'));
+        console.warn(`[AI] Error at chunk ${i} (attempt ${attempt}/${MAX_RETRIES}):`, error instanceof Error ? error.message.substring(0, 80) : error);
+
+        if (is429 && attempt < MAX_RETRIES) {
+          const backoff = attempt * 30000; // 30s, 60s
+          console.log(`[AI] Rate limited. Retrying in ${backoff / 1000}s...`);
+          await delay(backoff);
+          continue;
+        }
+      }
+    }
+
+    if (!success) {
       chunk.forEach(review => {
         analyzed.push({
           ...review,

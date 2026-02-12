@@ -23,11 +23,6 @@ export default async function InsightsPage({
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center gap-3">
-        <span className="w-4 h-4 rounded-full" style={{ backgroundColor: app.color }} />
-        <h1 className="text-2xl font-bold">{app.name} - 인사이트</h1>
-      </div>
-
       {!latest ? (
         <div className="bg-card border border-border rounded-xl p-8 text-center space-y-3">
           <Lightbulb className="w-12 h-12 text-muted-foreground mx-auto" />

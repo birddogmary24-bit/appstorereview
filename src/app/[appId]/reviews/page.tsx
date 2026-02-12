@@ -1,4 +1,4 @@
-import { getAppByIdOrThrow, OTT_APPS, SUB_CATEGORIES } from '@/lib/apps';
+import { getAppByIdOrThrow, OTT_APPS } from '@/lib/apps';
 import { loadReviews } from '@/lib/storage';
 import { ReviewListClient } from '@/components/reviews/review-list';
 
@@ -17,24 +17,21 @@ export default async function ReviewsPage({
   const app = getAppByIdOrThrow(appId);
   const reviews = await loadReviews(appId);
 
-  const allSubCategories = [
-    ...SUB_CATEGORIES['불만'],
-    ...SUB_CATEGORIES['칭찬'],
-    ...SUB_CATEGORIES['기타'],
-  ];
+  const availableMonths = Array.from(new Set(reviews.map(r => r.date.substring(0, 7))))
+    .sort((a, b) => b.localeCompare(a));
+
+  const starCounts: Record<number, number> = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+  reviews.forEach(r => {
+    if (starCounts[r.score] !== undefined) starCounts[r.score]++;
+  });
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <span className="w-4 h-4 rounded-full" style={{ backgroundColor: app.color }} />
-        <h1 className="text-2xl font-bold">{app.name} - 전체 리뷰</h1>
-        <span className="text-sm text-muted-foreground">({reviews.length.toLocaleString()}건)</span>
-      </div>
-
       <ReviewListClient
         reviews={reviews}
         appId={appId}
-        subCategories={allSubCategories}
+        availableMonths={availableMonths}
+        starCounts={starCounts}
       />
     </div>
   );

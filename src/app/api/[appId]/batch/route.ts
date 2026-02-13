@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createHash } from 'crypto';
 import { getAppByIdOrThrow } from '@/lib/apps';
 import { fetchGooglePlayReviews, fetchAppStoreReviews } from '@/lib/scrapers';
 import { categorizeReviewsBatch } from '@/lib/ai';
 import { saveReviews, loadReviews, loadInsights, saveInsights } from '@/lib/storage';
 import { generateMonthlyInsight } from '@/lib/insight-generator';
+import { verifyPassword } from '@/lib/auth';
 
 export const maxDuration = 300; // 5 minutes for Cloud Run
 
@@ -14,14 +14,9 @@ export async function POST(
 ) {
   const { appId } = await params;
 
-  // Password check (SHA-256 hash comparison)
-  const passwordHash = process.env.UPDATE_PASSWORD_HASH;
-  if (passwordHash) {
-    const body = await request.json().catch(() => ({}));
-    const inputHash = createHash('sha256').update(body.password || '').digest('hex');
-    if (inputHash !== passwordHash) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+  const body = await request.json().catch(() => ({}));
+  if (!verifyPassword(body.password || '')) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {

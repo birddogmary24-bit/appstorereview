@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createHash } from 'crypto';
 import { getAppByIdOrThrow } from '@/lib/apps';
 import { categorizeReviewsBatch } from '@/lib/ai';
 import { loadReviews } from '@/lib/storage';
-import { AnalyzedReview } from '@/lib/types';
+import { verifyPassword } from '@/lib/auth';
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -15,14 +14,9 @@ export async function POST(
 ) {
   const { appId } = await params;
 
-  // Password check
-  const passwordHash = process.env.UPDATE_PASSWORD_HASH;
-  if (passwordHash) {
-    const body = await request.json().catch(() => ({}));
-    const inputHash = createHash('sha256').update(body.password || '').digest('hex');
-    if (inputHash !== passwordHash) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+  const body = await request.json().catch(() => ({}));
+  if (!verifyPassword(body.password || '')) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {

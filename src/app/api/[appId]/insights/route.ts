@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { loadInsights, loadReviews, saveInsights } from '@/lib/storage';
 import { generateMonthlyInsight } from '@/lib/insight-generator';
 import { getAppByIdOrThrow } from '@/lib/apps';
+import { verifyPassword } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,8 +24,7 @@ export async function POST(
   getAppByIdOrThrow(appId);
 
   const body = await request.json().catch(() => ({}));
-  const password = process.env.UPDATE_PASSWORD;
-  if (password && body.password !== password) {
+  if (!verifyPassword(body.password || '')) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

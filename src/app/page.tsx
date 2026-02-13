@@ -2,6 +2,7 @@ import { OTT_APPS } from '@/lib/apps';
 import { loadReviews, getMonthlyStats, getLastUpdateTimestamp } from '@/lib/storage';
 import { BarChart3, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { BatchAllButton } from '@/components/batch-all-button';
 
 export const dynamic = 'force-dynamic';
 
@@ -50,9 +51,12 @@ export default async function HomePage() {
             <p className="text-sm uppercase tracking-widest text-muted-foreground font-bold">전체 수집 리뷰</p>
             <p className="text-5xl font-black mt-1">{totalReviews.toLocaleString()}</p>
           </div>
-          <div className="text-right text-base text-muted-foreground">
-            <p>{OTT_APPS.length}개 OTT 서비스</p>
-            <p>Google Play + App Store</p>
+          <div className="flex items-center gap-6">
+            <div className="text-right text-base text-muted-foreground">
+              <p>{OTT_APPS.length}개 OTT 서비스</p>
+              <p>Google Play + App Store</p>
+            </div>
+            <BatchAllButton />
           </div>
         </div>
       </div>

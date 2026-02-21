@@ -42,8 +42,8 @@ export function RecentReviews({ reviews }: RecentReviewsProps) {
             <span
               className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${
                 r.store === 'google-play'
-                  ? 'bg-blue-900/40 text-blue-400'
-                  : 'bg-gray-700/40 text-gray-400'
+                  ? 'bg-blue-100 text-blue-600'
+                  : 'bg-gray-100 text-gray-500'
               }`}
             >
               {r.store === 'google-play' ? 'PLAY' : 'APPLE'}

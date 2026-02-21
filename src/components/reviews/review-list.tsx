@@ -195,7 +195,7 @@ export function ReviewListClient({ reviews, appId, availableMonths, starCounts }
           onClick={() => { setSubCategoryFilter('전체'); setCurrentPage(1); }}
           className={`px-3 py-1.5 rounded-full text-[11px] font-bold transition-all border ${
             subCategoryFilter === '전체'
-              ? 'bg-white text-black border-white'
+              ? 'bg-primary text-white border-primary'
               : 'bg-transparent text-muted-foreground border-border hover:border-muted-foreground'
           }`}
         >
@@ -207,7 +207,7 @@ export function ReviewListClient({ reviews, appId, availableMonths, starCounts }
             onClick={() => { setSubCategoryFilter(sub); setCurrentPage(1); }}
             className={`px-3 py-1.5 rounded-full text-[11px] font-bold transition-all border ${
               subCategoryFilter === sub
-                ? 'bg-white text-black border-white'
+                ? 'bg-primary text-white border-primary'
                 : 'bg-transparent text-muted-foreground border-border hover:border-muted-foreground'
             }`}
           >
@@ -241,7 +241,7 @@ export function ReviewListClient({ reviews, appId, availableMonths, starCounts }
               paginated.map((r) => (
                 <tr
                   key={`${r.store}-${r.id}`}
-                  className="hover:bg-white/5 transition-all group border-l-2 border-l-transparent hover:border-l-primary"
+                  className="hover:bg-gray-50 transition-all group border-l-2 border-l-transparent hover:border-l-primary"
                 >
                   <td className="px-6 py-4 text-xs font-bold whitespace-nowrap">
                     {new Date(r.date).toLocaleDateString('ko-KR')}
@@ -252,8 +252,8 @@ export function ReviewListClient({ reviews, appId, availableMonths, starCounts }
                       <span
                         className={`text-[9px] uppercase font-bold px-1.5 py-0.5 rounded w-fit ${
                           r.store === 'google-play'
-                            ? 'bg-blue-900/40 text-blue-400'
-                            : 'bg-gray-700/40 text-gray-400'
+                            ? 'bg-blue-100 text-blue-600'
+                            : 'bg-gray-100 text-gray-500'
                         }`}
                       >
                         {r.store === 'google-play' ? 'Google Play' : 'App Store'}
@@ -264,8 +264,8 @@ export function ReviewListClient({ reviews, appId, availableMonths, starCounts }
                     <div className="flex flex-col gap-1">
                       <span
                         className={`text-[9px] px-2 py-0.5 rounded font-bold w-fit ${
-                          r.category === '칭찬' ? 'bg-green-500/20 text-green-400' :
-                          r.category === '불만' ? 'bg-red-500/20 text-red-400' :
+                          r.category === '칭찬' ? 'bg-green-100 text-green-700' :
+                          r.category === '불만' ? 'bg-red-100 text-red-700' :
                           'bg-muted text-muted-foreground'
                         }`}
                       >
@@ -302,7 +302,7 @@ export function ReviewListClient({ reviews, appId, availableMonths, starCounts }
                   setCurrentPage(p => p - 1);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="px-4 py-2 border border-border rounded-lg font-bold text-xs hover:bg-white hover:text-black transition-all disabled:opacity-20"
+                className="px-4 py-2 border border-border rounded-lg font-bold text-xs hover:bg-secondary transition-all disabled:opacity-20"
               >
                 PREV
               </button>
@@ -312,7 +312,7 @@ export function ReviewListClient({ reviews, appId, availableMonths, starCounts }
                   setCurrentPage(p => p + 1);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="px-4 py-2 border border-border rounded-lg font-bold text-xs hover:bg-white hover:text-black transition-all disabled:opacity-20"
+                className="px-4 py-2 border border-border rounded-lg font-bold text-xs hover:bg-secondary transition-all disabled:opacity-20"
               >
                 NEXT
               </button>

@@ -31,15 +31,16 @@ export function SentimentChart({ stats, height = 350 }: SentimentChartProps) {
   return (
     <ResponsiveContainer width="100%" height={height}>
       <LineChart data={chartData}>
-        <CartesianGrid strokeDasharray="3 3" stroke="#1e1e30" />
-        <XAxis dataKey="month" stroke="#a0a0b8" fontSize={12} />
-        <YAxis stroke="#a0a0b8" fontSize={12} />
+        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+        <XAxis dataKey="month" stroke="#6b7280" fontSize={12} />
+        <YAxis stroke="#6b7280" fontSize={12} />
         <Tooltip
           contentStyle={{
-            backgroundColor: '#12121e',
-            border: '1px solid #1e1e30',
+            backgroundColor: '#ffffff',
+            border: '1px solid #e5e7eb',
             borderRadius: '8px',
             fontSize: '12px',
+            color: '#111827',
           }}
         />
         <Legend wrapperStyle={{ fontSize: '12px' }} />

@@ -12,10 +12,11 @@ interface CompareClientProps {
 }
 
 const TOOLTIP_STYLE = {
-  backgroundColor: '#12121e',
-  border: '1px solid #2a2a2e',
+  backgroundColor: '#ffffff',
+  border: '1px solid #e5e7eb',
   borderRadius: '8px',
   fontSize: '13px',
+  color: '#111827',
 };
 
 export function CompareClient({ comparisons, apps }: CompareClientProps) {
@@ -153,9 +154,9 @@ export function CompareClient({ comparisons, apps }: CompareClientProps) {
           <h2 className="text-lg font-bold">평균 별점 비교</h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={scoreData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e1e30" />
-              <XAxis dataKey="name" stroke="#d4d4d8" fontSize={13} />
-              <YAxis domain={[0, 5]} stroke="#d4d4d8" fontSize={13} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis dataKey="name" stroke="#6b7280" fontSize={13} />
+              <YAxis domain={[0, 5]} stroke="#6b7280" fontSize={13} />
               <Tooltip contentStyle={TOOLTIP_STYLE} />
               <Legend wrapperStyle={{ fontSize: '13px' }} />
               <Bar dataKey="평균 별점" fill="#6366f1" radius={[4, 4, 0, 0]} />
@@ -170,9 +171,9 @@ export function CompareClient({ comparisons, apps }: CompareClientProps) {
           <h2 className="text-lg font-bold">긍정 비율 비교</h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={scoreData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e1e30" />
-              <XAxis dataKey="name" stroke="#d4d4d8" fontSize={13} />
-              <YAxis domain={[0, 100]} stroke="#d4d4d8" fontSize={13} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis dataKey="name" stroke="#6b7280" fontSize={13} />
+              <YAxis domain={[0, 100]} stroke="#6b7280" fontSize={13} />
               <Tooltip contentStyle={TOOLTIP_STYLE} />
               <Legend wrapperStyle={{ fontSize: '13px' }} />
               <Bar dataKey="긍정 비율" fill="#22c55e" radius={[4, 4, 0, 0]} />
@@ -204,15 +205,15 @@ export function CompareClient({ comparisons, apps }: CompareClientProps) {
           </div>
           <ResponsiveContainer width="100%" height={Math.max(400, sortedSubCategories.length * 45)}>
             <BarChart data={categoryChartData} layout="vertical" margin={{ left: 120 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e1e30" />
-              <XAxis type="number" stroke="#d4d4d8" fontSize={12} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis type="number" stroke="#6b7280" fontSize={12} />
               <YAxis
                 dataKey="category"
                 type="category"
-                stroke="#d4d4d8"
+                stroke="#6b7280"
                 fontSize={12}
                 width={110}
-                tick={{ fill: '#d4d4d8' }}
+                tick={{ fill: '#6b7280' }}
               />
               <Tooltip contentStyle={TOOLTIP_STYLE} />
               <Legend wrapperStyle={{ fontSize: '13px' }} />

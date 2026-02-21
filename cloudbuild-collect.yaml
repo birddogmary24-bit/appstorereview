@@ -1,0 +1,13 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    - 'build'
+    - '-f'
+    - 'Dockerfile.collect'
+    - '-t'
+    - 'asia-northeast3-docker.pkg.dev/tving-review-sys/cloud-run-source-deploy/appscope-collect:latest'
+    - '.'
+images:
+- 'asia-northeast3-docker.pkg.dev/tving-review-sys/cloud-run-source-deploy/appscope-collect:latest'
+options:
+  logging: CLOUD_LOGGING_ONLY

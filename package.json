@@ -6,7 +6,9 @@
     "dev": "next dev --port 3001",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "collect": "node scripts/collect.mjs",
+    "collect:sync": "node scripts/collect.mjs && gsutil -o 'GSUtil:parallel_process_count=1' -m rsync -r data/tving gs://appscope-review-data/tving && gsutil -o 'GSUtil:parallel_process_count=1' -m rsync -r data/netflix gs://appscope-review-data/netflix && gsutil -o 'GSUtil:parallel_process_count=1' -m rsync -r data/disneyplus gs://appscope-review-data/disneyplus && gsutil -o 'GSUtil:parallel_process_count=1' -m rsync -r data/wavve gs://appscope-review-data/wavve && gsutil -o 'GSUtil:parallel_process_count=1' -m rsync -r data/coupangplay gs://appscope-review-data/coupangplay && gsutil -o 'GSUtil:parallel_process_count=1' -m rsync -r data/watcha gs://appscope-review-data/watcha"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.18.0",

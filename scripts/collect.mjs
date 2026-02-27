@@ -42,8 +42,8 @@ await loadEnvFile(path.join(ROOT, '.env.local'));
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const IS_FAST_MODE = process.env.GEMINI_FAST_MODE === 'true';
 const MODEL_NAME = 'gemini-2.0-flash';
-const MAIN_BUCKET = process.env.GCS_BUCKET_NAME || 'appscope-review-data';
-const BACKUP_BUCKET = 'appscope-review-backup';
+const MAIN_BUCKET = process.env.GCS_BUCKET_NAME;
+const BACKUP_BUCKET = process.env.GCS_BACKUP_BUCKET_NAME;
 const IS_PRODUCTION = process.env.NODE_ENV === 'production' && !!process.env.GCS_BUCKET_NAME;
 
 // ─── App definitions ─────────────────────────────────────────────────────────
@@ -365,6 +365,10 @@ ${sampleReviews}
 async function syncToBackup(appIds) {
   if (!IS_PRODUCTION) {
     console.log('\n[Backup] Skipping backup (not in production mode)');
+    return;
+  }
+  if (!BACKUP_BUCKET) {
+    console.log('\n[Backup] Skipping backup (GCS_BACKUP_BUCKET_NAME not set)');
     return;
   }
   console.log(`\n[Backup] Syncing ${appIds.length} apps to gs://${BACKUP_BUCKET}...`);

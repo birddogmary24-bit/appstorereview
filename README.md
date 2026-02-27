@@ -6,7 +6,7 @@
 
 | 환경 | URL |
 |------|-----|
-| Production | https://appscope-520722818842.asia-northeast3.run.app |
+| Production | https://\<your-cloud-run-url\> |
 | Development | http://localhost:3001 |
 
 ---

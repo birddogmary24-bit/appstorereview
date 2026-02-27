@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "collect": "node scripts/collect.mjs",
-    "collect:sync": "node scripts/collect.mjs && gsutil -o 'GSUtil:parallel_process_count=1' -m rsync -r data/tving gs://appscope-review-data/tving && gsutil -o 'GSUtil:parallel_process_count=1' -m rsync -r data/netflix gs://appscope-review-data/netflix && gsutil -o 'GSUtil:parallel_process_count=1' -m rsync -r data/disneyplus gs://appscope-review-data/disneyplus && gsutil -o 'GSUtil:parallel_process_count=1' -m rsync -r data/wavve gs://appscope-review-data/wavve && gsutil -o 'GSUtil:parallel_process_count=1' -m rsync -r data/coupangplay gs://appscope-review-data/coupangplay && gsutil -o 'GSUtil:parallel_process_count=1' -m rsync -r data/watcha gs://appscope-review-data/watcha"
+    "collect:sync": "node scripts/collect.mjs && gsutil -o 'GSUtil:parallel_process_count=1' -m rsync -r data/tving gs://$GCS_BUCKET_NAME/tving && gsutil -o 'GSUtil:parallel_process_count=1' -m rsync -r data/netflix gs://$GCS_BUCKET_NAME/netflix && gsutil -o 'GSUtil:parallel_process_count=1' -m rsync -r data/disneyplus gs://$GCS_BUCKET_NAME/disneyplus && gsutil -o 'GSUtil:parallel_process_count=1' -m rsync -r data/wavve gs://$GCS_BUCKET_NAME/wavve && gsutil -o 'GSUtil:parallel_process_count=1' -m rsync -r data/coupangplay gs://$GCS_BUCKET_NAME/coupangplay && gsutil -o 'GSUtil:parallel_process_count=1' -m rsync -r data/watcha gs://$GCS_BUCKET_NAME/watcha"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.18.0",
